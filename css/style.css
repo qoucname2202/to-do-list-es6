@@ -240,11 +240,23 @@ ul.todo li .task-feature {
 ul.todo li .task-feature > span {
 	cursor: pointer;
 }
+ul.todo li .task-feature span .removeToDo,
+.completeToDo {
+	color: #aaa;
+	font-size: 15px;
+}
+ul.todo li .task-feature span .removeToDo:hover {
+	color: #fa396b;
+}
+ul.todo li .task-feature span .completeToDo:hover {
+	color: #25b99a;
+}
 ul.todo li .task-feature span .remove,
 .complete {
 	color: #aaa;
 	font-size: 15px;
 }
+
 ul.todo li .task-feature span .remove:hover {
 	color: #fa396b;
 }

@@ -1,5 +1,6 @@
 import { Task } from '../model/Task.js';
 import { TaskList } from '../model/TaskList.js';
+
 // add task
 let taskList = new TaskList();
 
@@ -14,28 +15,31 @@ document.getElementById('addItem').addEventListener('click', e => {
 	taskList.addTask(task);
 	taskList.saveTaskLocal();
 	taskList.renderTaskToDo('todo');
-	window.location.reload();
 });
 // delete task
-document.querySelectorAll('.task-feature span .remove').forEach(button => {
-	button.addEventListener('click', e => {
-		e.preventDefault();
-		const id = e.target.getAttribute('data-remove');
-		taskList.deleteTask(id);
-		taskList.saveTaskLocal();
-		taskList.renderTaskToDo('todo');
-		window.location.reload();
-	});
+window.delItem = id => {
+	taskList.deleteTask(id);
+	taskList.saveTaskLocal();
+	taskList.renderTaskToDo('todo');
+	taskList.renderTaskCompleted('completed');
+};
+// check completed task
+window.checkDoneTask = id => {
+	taskList.handelCheckDoneTask(id);
+	taskList.saveTaskLocal();
+	taskList.renderTaskToDo('todo');
+	taskList.renderTaskCompleted('completed');
+};
+
+// sortting desc
+document.getElementById('two').addEventListener('click', e => {
+	taskList.handelSortingDesc();
+	taskList.saveTaskLocal();
+	taskList.renderTaskToDo('todo');
 });
-// Completed task
-document
-	.querySelectorAll('.task-feature span .completeToDo')
-	.forEach(button => {
-		button.addEventListener('click', e => {
-			e.preventDefault();
-			const id = e.target.getAttribute('data-complete');
-			taskList.handelCheckDoneTask(id);
-			taskList.renderTaskToDo('todo');
-			window.location.reload();
-		});
-	});
+// sorting asc
+document.getElementById('three').addEventListener('click', e => {
+	taskList.handelSortingAsc();
+	taskList.saveTaskLocal();
+	taskList.renderTaskToDo('todo');
+});

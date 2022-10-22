@@ -9,7 +9,6 @@ const formatDateTime = today => {
 };
 export class TaskList {
 	taskToDo = [];
-	taskComplete = [];
 	// save task to localStorage
 	saveTaskLocal() {
 		localStorage.setItem('taskToDo', JSON.stringify(this.taskToDo));
@@ -35,10 +34,10 @@ export class TaskList {
 								<span class="task-content">${title}</span>
 								<div class="task-feature">
 									<span>
-										<i class="fa fa-trash-alt remove" data-remove="${id}"></i>
+										<i class="fa fa-trash-alt remove" onclick="delItem('${id}')"></i>
 									</span>
 									<span>
-										<i class="fa fa-check-circle completeToDo" data-complete="${id}"></i>
+										<i class="fa fa-check-circle completeToDo" onclick="checkDoneTask('${id}')"></i>
 									</span>
 								</div>
 							</li>
@@ -49,21 +48,17 @@ export class TaskList {
 	}
 	// delete task
 	deleteTask(id) {
-		let taskListClone = [...this.taskToDo];
-		let idxTask = taskListClone.findIndex(task => task.id === id);
+		let idxTask = this.taskToDo.findIndex(task => task.id === id);
 		if (idxTask !== -1) {
-			taskListClone.splice(idxTask, 1);
-			this.taskToDo = taskListClone;
+			this.taskToDo.splice(idxTask, 1);
 		}
 	}
 	// check done task
 	handelCheckDoneTask(id) {
-		let taskToDoClone = [...this.taskToDo];
-		let idxTask = taskToDoClone.findIndex(task => task.id === id);
+		let idxTask = this.taskToDo.findIndex(task => task.id === id);
 		if (idxTask !== -1) {
-			taskToDoClone[idxTask].completedAt = formatDateTime(new Date());
-			taskToDoClone[idxTask].status = false;
-			localStorage.setItem('taskToDo', JSON.stringify(taskToDoClone));
+			this.taskToDo[idxTask].completedAt = formatDateTime(new Date());
+			this.taskToDo[idxTask].status = false;
 		}
 	}
 	// render status false
@@ -77,7 +72,7 @@ export class TaskList {
             <span class="task-content">${title}</span>
             <div class="task-feature">
               <span>
-										<i class="fa fa-trash-alt remove" data-remove="${id}"></i>
+										<i class="fa fa-trash-alt remove" onclick="delItem('${id}')"></i>
 									</span>
               <span>
                 <i class="fa fa-check-circle complete"></i>
@@ -88,5 +83,13 @@ export class TaskList {
 			})
 			.join('');
 		document.getElementById(selector).innerHTML = content;
+	}
+	// handel sorting descreasing task
+	handelSortingDesc() {
+		this.taskToDo = _.orderBy(this.taskToDo, 'title', 'desc');
+	}
+	// handel sorting ascending task
+	handelSortingAsc() {
+		this.taskToDo = _.orderBy(this.taskToDo, 'title', 'asc');
 	}
 }
